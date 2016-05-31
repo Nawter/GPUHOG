@@ -1,0 +1,2 @@
+/home/ubuntu/Thesis/UC3M_HOG/CPU/CMakeFiles/OPENCV_HOG_CPU.dir
+/home/ubuntu/Thesis/UC3M_HOG/CPU/CMakeFiles/OPENCV_HOG_GPU.dir

@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ubuntu/Thesis/UC3M_HOG/CPU/OPENCV_HOG_GPU.cpp
+ctype.h
+-
+dirent.h
+-
+fstream
+-
+iomanip
+-
+iostream
+-
+math.h
+-
+opencv2/core/utility.hpp
+-
+opencv2/cudaobjdetect.hpp
+/home/ubuntu/Thesis/UC3M_HOG/CPU/opencv2/cudaobjdetect.hpp
+opencv2/highgui.hpp
+/home/ubuntu/Thesis/UC3M_HOG/CPU/opencv2/highgui.hpp
+opencv2/objdetect.hpp
+/home/ubuntu/Thesis/UC3M_HOG/CPU/opencv2/objdetect.hpp
+opencv2/imgproc.hpp
+/home/ubuntu/Thesis/UC3M_HOG/CPU/opencv2/imgproc.hpp
+stdexcept
+-
+stdio.h
+-
+stdlib.h
+-
+sstream
+-
+string
+-
+sys/time.h
+-
+vector
+-
+

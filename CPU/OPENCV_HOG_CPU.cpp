@@ -1,0 +1,119 @@
+#include <ctype.h>
+#include <dirent.h>
+#include <fstream>
+#include <iostream>
+#include <math.h>
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/objdetect/objdetect.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/time.h>
+#include <vector>
+
+using namespace cv;
+using namespace std;
+
+
+int main(int argc, char** argv)
+{
+    Mat img;
+    FILE* f = 0;
+    char _filename[1024];
+    if( argc == 1 )
+    {
+        printf("Usage: OPENCV_HOG_CPU (<image_filename> | <image_list>.txt)\n");
+        return 0;
+    }
+    img = imread(argv[1]);
+
+    if( img.data )
+    {
+        strcpy(_filename, argv[1]);
+    }
+    else
+    {
+        f = fopen(argv[1], "rt");
+        if(!f)
+        {
+            fprintf( stderr, "ERROR: the specified file could not be loaded\n");
+            return -1;
+        }
+    }
+    HOGDescriptor hog;
+    float start;
+    hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());   
+    for(;;)
+    {
+         char* filename = _filename;
+        if(f)
+        {
+            if(!fgets(filename, (int)sizeof(_filename)-2, f))
+                break;
+            //while(*filename && isspace(*filename))
+            //  ++filename;
+            if(filename[0] == '#')
+                continue;
+            int l = (int)strlen(filename);
+            while(l > 0 && isspace(filename[l-1]))
+                --l;
+            filename[l] = '\0';
+            img = imread(filename);
+        }
+        // printf("%s:\n", filename);
+        if(!img.data)
+            continue;
+        fflush(stdout);
+
+    
+        vector<Rect> found, found_filtered;
+           
+        //start=(float)getMilliSecond();
+        //double t = (double)getTickCount();
+        // run the detector with default parameters. to get a higher hit-rate
+        // (and more false alarms, respectively), decrease the hitThreshold and
+        // groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
+           cvtColor(img,img,CV_BGR2GRAY); 
+          hog.detectMultiScale(img, found, 0, Size(8,8), Size(0,0), 1.05, 1);
+        // fprintf(stderr,"Program finished\n");
+        //t = (double)getTickCount() - t;
+        //printf("tdetection time = %gms\n", t*1000./cv::getTickFrequency());
+
+        size_t ix, jx;
+        //      for( i = 0; i < found.size(); i++ )
+         //      {
+         //  	    Rect r = found[i];
+         //  	    rectangle(img, r.tl(), r.br(), cv::Scalar(110,155,255), 1);
+         //  	    for( j = 0; j < found.size(); j++ )
+         //  	    {    
+         //      	 	if( j != i && (r & found[j]) == r)
+         //      		{
+         //      	        break;
+         //      		}
+      	  //       }
+         //  	    if( j == found.size() )
+         //  	    {	  
+         //  		  found_filtered.push_back(r);
+         //  	    }
+      	  //  }
+      	  // for( i = 0; i < found_filtered.size(); i++ )
+         //      {
+         //          Rect r = found_filtered[i];
+         //          // the HOG detector returns slightly larger rectangles than the real objects.
+         //          // so we slightly shrink the rectangles to get a nicer output.
+         //          //r.x += cvRound(r.width*0.1);
+         //          //r.width = cvRound(r.width*0.8);
+         //          //r.y += cvRound(r.height*0.07);
+         //          //r.height = cvRound(r.height*0.8);	 
+      	  //   rectangle(img, r.tl(), r.br(), cv::Scalar(0,255,0), 1);
+         //      }
+     
+         waitKey(0);
+             break;        
+     }
+    //getHumanReadableTime(start);
+    if(f)
+    fclose(f);
+    return 0;
+}
